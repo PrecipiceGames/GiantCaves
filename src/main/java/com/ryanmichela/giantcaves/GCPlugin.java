@@ -16,9 +16,9 @@
 package com.ryanmichela.giantcaves;
 
 import org.bukkit.World;
-import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.world.WorldInitEvent;
-import org.bukkit.event.world.WorldListener;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -32,14 +32,16 @@ public class GCPlugin extends JavaPlugin {
 
     public void onEnable() {
         getServer().getLogger().info("[Giant Caves] Started.");
-        getServer().getPluginManager().registerEvent(Event.Type.WORLD_INIT, new GCWorldListener(), Event.Priority.Normal, this);
+        getServer().getPluginManager().registerEvents(new GCWorldListener(), this);
     }
 
     public void onDisable() {
     }
 
-    private class GCWorldListener extends WorldListener {
-        @Override
+    private class GCWorldListener implements Listener {
+    	
+        @SuppressWarnings("unused")
+		@EventHandler
         public void onWorldInit(WorldInitEvent event) {
             Config config = parseConfig(event.getWorld());
             if(config != null) {
